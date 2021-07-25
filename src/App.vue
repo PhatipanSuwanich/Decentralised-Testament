@@ -1,12 +1,23 @@
 <template>
   <v-app>
-    <v-app-bar app color="black" dark>
-      <h1>Decentralized Testament</h1>
+    <v-app-bar app>
       <v-spacer></v-spacer>
-      <v-btn depressed justify="space-around"> {{ account }} </v-btn>
+      <v-btn @click="connectWallet()" v-if="this.account === ''">
+        Connect wallet
+      </v-btn>
+      <v-btn depressed v-else>
+        {{ shortAccount(this.account) }}
+      </v-btn>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" absolute permanent dark>
+    <v-navigation-drawer app permanent>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="text-h6"> พินัยกรรม </v-list-item-title>
+          <v-list-item-subtitle> แบบไร้ตัวกลาง </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
       <v-divider></v-divider>
 
       <v-list dense nav>
@@ -18,7 +29,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-main dark>
+    <v-main>
       <router-view />
     </v-main>
   </v-app>
@@ -33,8 +44,7 @@ export default {
   name: "App",
 
   data: () => ({
-    account: "Connect wallet",
-    drawer: false,
+    account: "",
     items: [
       { title: "ภาพรวม" },
       { title: "สร้างพินัยกรรม" },
@@ -44,16 +54,22 @@ export default {
     right: null,
   }),
 
-  watch: {
-    group() {
-      this.drawer = false;
-    },
-  },
-
   async created() {
-    this.account = await smartContract.loadUserAddress();
+    await this.connectWallet();
   },
 
   mounted() {},
+
+  methods: {
+    shortAccount(id) {
+      return (
+        id.substring(0, 4) + "..." + id.substring(id.length - 4, id.length)
+      );
+    },
+    async connectWallet() {
+      await smartContract.connectWallet();
+      this.account = await smartContract.loadUserAddress();
+    },
+  },
 };
 </script>

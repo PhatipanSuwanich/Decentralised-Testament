@@ -7,8 +7,12 @@ class SmartContract {
     // ethNode = 'wss://rinkeby.infura.io/_ws',
     // contractAddr = "0x6c527b7c6bbd2374791998c6abf9f90bca70d015"
   ) {
-    // Modern dapp browsers...
+    // this.contractAddr = contractAddr;
+  }
+
+  async connectWallet(){
     if (window.ethereum) {
+      // Modern dapp browsers...
       this.web3 = new Web3(window.ethereum);
 
       try {
@@ -31,7 +35,6 @@ class SmartContract {
     }
 
     console.log("web3: ", this.web3);
-    // this.contractAddr = contractAddr;
   }
 
   async loadUserAddress () {
