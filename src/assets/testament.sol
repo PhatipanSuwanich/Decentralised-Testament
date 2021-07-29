@@ -71,8 +71,9 @@ contract Testament {
         remainingBalance = MyTestament[owner][msg.sender].estate;
     }
     
-    function cancellationMyLastWillTestament(address receiver,uint256 max_amount) public returns (uint256 remainingBalance){
-        require(MyTestament[msg.sender][receiver].estate == max_amount,"Please withdraw all of your funds!");
+    function cancellationMyLastWillTestament(address receiver) public returns (uint256 remainingBalance){
+        require(MyTestament[msg.sender][receiver].estate > 0,"You do not own this will.");
+        uint256 max_amount = MyTestament[msg.sender][receiver].estate;
         MyTestament[msg.sender][receiver].estate = MyTestament[msg.sender][receiver].estate.sub(max_amount);
         MyTestament[msg.sender][receiver].startDate = 0;
         MyTestament[msg.sender][receiver].completeDate = 0;
