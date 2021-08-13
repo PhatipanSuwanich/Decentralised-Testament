@@ -21,7 +21,12 @@
       <v-divider></v-divider>
 
       <v-list dense nav>
-        <v-list-item v-for="item in items" :key="item.title" link>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+          :to="item.href"
+        >
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
@@ -46,10 +51,10 @@ export default {
   data: () => ({
     account: "",
     items: [
-      { title: "ภาพรวม" },
-      { title: "สร้างพินัยกรรม" },
-      { title: "ถอนเงินมรดก" },
-      { title: "รับมรดก" },
+      { title: "ภาพรวม", href: "/" },
+      { title: "สร้างพินัยกรรม", href: "/create" },
+      { title: "ถอนเงินมรดก", href: "/withdraw" },
+      { title: "รับมรดก", href: "/inherit" },
     ],
     right: null,
   }),
@@ -67,7 +72,6 @@ export default {
       );
     },
     async connectWallet() {
-      await smartContract.connectWallet();
       this.account = await smartContract.loadUserAddress();
     },
   },

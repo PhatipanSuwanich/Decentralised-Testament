@@ -1,16 +1,10 @@
 /* eslint-disable prettier/prettier */
 import Web3 from "web3";
+import ContractAbi from "../abi/testament.json";
 import validateConnection from "./validateConnection";
 
 class SmartContract {
-  constructor(
-    // ethNode = 'wss://rinkeby.infura.io/_ws',
-    // contractAddr = "0x6c527b7c6bbd2374791998c6abf9f90bca70d015"
-  ) {
-    // this.contractAddr = contractAddr;
-  }
-
-  async connectWallet(){
+  constructor() {
     if (window.ethereum) {
       // Modern dapp browsers...
       this.web3 = new Web3(window.ethereum);
@@ -37,14 +31,67 @@ class SmartContract {
     console.log("web3: ", this.web3);
   }
 
-  async loadUserAddress () {
-    let accounts = await this.web3.eth.getAccounts()
-    console.log('loadUserAddress >> ' + accounts[0])
+  async init() {
+    const netId = await this.getNetID();
+    if ("Rinkeby" == netId.name) {
+      this.contractAddr = "0xB1c945a57f41B4f9A5c8eD2035F6E785980448e7";
+    }
+    this.contract = new this.web3.eth.Contract(ContractAbi, this.contractAddr);
+    console.log("Methods: ", this.contract.methods);
+  }
 
-    return accounts[0]
+  async getContractBalance() {
+    return this.web3.utils.fromWei(
+      await this.contract.methods.getContractBalance().call(),
+      "ether"
+    );
+  }
+
+  async getNetID() {
+    let netId = await this.web3.eth.net.getId();
+    let network = "";
+    let warning = "";
+    console.log("netId: " + netId);
+    switch (netId) {
+      case 1:
+        network = "Mainnet";
+        warning = "please switch your network to Rinkeby";
+        break;
+      case 2:
+        network = "Deprecated Morden";
+        warning = "please switch your network to Rinkeby";
+        break;
+      case 3:
+        network = "Ropsten";
+        warning = "please switch your network to Rinkeby";
+        break;
+      case 4:
+        network = "Rinkeby";
+        break;
+      case 42:
+        network = "Kovan";
+        break;
+      default:
+        network = "Unknown";
+        warning = "please switch your network to Rinkeby";
+    }
+
+    console.log("result: ", netId, network, warning);
+    return {
+      netId: netId,
+      name: network,
+      warning: warning,
+    };
+  }
+
+  async loadUserAddress() {
+    let accounts = await this.web3.eth.getAccounts();
+    console.log("loadUserAddress >> " + accounts[0]);
+
+    return accounts[0];
   }
 }
 
-Object.setPrototypeOf(SmartContract.prototype, {...validateConnection})
+Object.setPrototypeOf(SmartContract.prototype, { ...validateConnection });
 
 export default SmartContract;
