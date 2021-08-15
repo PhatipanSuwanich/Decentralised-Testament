@@ -2,9 +2,11 @@
 import Web3 from "web3";
 import ContractAbi from "../abi/testament.json";
 import validateConnection from "./validateConnection";
+import moment from "moment";
 
 class SmartContract {
   constructor() {
+    moment.locale("TH");
     if (window.ethereum) {
       // Modern dapp browsers...
       this.web3 = new Web3(window.ethereum);
@@ -34,17 +36,10 @@ class SmartContract {
   async init() {
     const netId = await this.getNetID();
     if ("Rinkeby" == netId.name) {
-      this.contractAddr = "0xB1c945a57f41B4f9A5c8eD2035F6E785980448e7";
+      this.contractAddr = "0xaF9feB20E57c140471c92f1b84814810EBAa3A0A";
     }
     this.contract = new this.web3.eth.Contract(ContractAbi, this.contractAddr);
     console.log("Methods: ", this.contract.methods);
-  }
-
-  async getContractBalance() {
-    return this.web3.utils.fromWei(
-      await this.contract.methods.getContractBalance().call(),
-      "ether"
-    );
   }
 
   async getNetID() {
@@ -89,6 +84,35 @@ class SmartContract {
     console.log("loadUserAddress >> " + accounts[0]);
 
     return accounts[0];
+  }
+
+  async getContractBalance() {
+    return this.web3.utils.fromWei(
+      await this.contract.methods.getContractBalance().call(),
+      "ether"
+    );
+  }
+
+  async getContractLogs() {
+    this.logs = [];
+    this.count = await this.contract.methods.getTotalLogs().call();
+    for (let i = 0; i < this.count; i++) {
+      this.logs.push(await this.contract.methods.logs(i).call());
+      // console.log("i: ", this.logs[i]);
+      this.logs[i].estate = this.web3.utils.fromWei(
+        this.logs[i].estate,
+        "ether"
+      );
+
+      this.logs[i].startDate = moment
+        .unix(parseInt(this.logs[i].startDate))
+        .format("Do MMM YYYY, h:mm:ss");
+
+      this.logs[i].completeDate = moment
+        .unix(parseInt(this.logs[i].completeDate))
+        .format("Do MMM YYYY, h:mm:ss");
+    }
+    return this.logs;
   }
 }
 

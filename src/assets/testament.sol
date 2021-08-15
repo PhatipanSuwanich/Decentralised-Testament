@@ -5,7 +5,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.1.0/contr
 contract Testament {
     using SafeMath for uint256;
     
-    uint256 private countTestament = 0;
+    uint256 private countLogs = 0;
     
     struct Testament {
         uint256 estate;       //กองมรดก
@@ -30,11 +30,12 @@ contract Testament {
         require(msg.value > 0,"amount should more than 0");
         
         // uint256 year = 31556926;
-        uint256 hour = 3600;
+        // uint256 hour = 3600;
+        uint256 minute = 60;
         Testament memory currentTestament;
         currentTestament.estate = MyTestament[msg.sender][receiver].estate.add(msg.value);
         currentTestament.startDate = now;
-        currentTestament.completeDate = now.add(hour.mul(completeDate));
+        currentTestament.completeDate = now.add(minute.mul(completeDate));
         
         // MyTestament[tx.origin] = currentTestament;
         MyTestament[msg.sender][receiver] = currentTestament;
@@ -51,7 +52,7 @@ contract Testament {
         currentTransaction.legatee = legatee;
         
         logs.push(currentTransaction);
-        countTestament = countTestament.add(1);
+        countLogs = countLogs.add(1);
     }
     
     function ownerWithdraws(address receiver,uint256 withdrow_amount) public returns (uint256 remainingBalance){
@@ -79,7 +80,6 @@ contract Testament {
         MyTestament[msg.sender][receiver].completeDate = 0;
         
         msg.sender.transfer(max_amount);
-        countTestament = countTestament.sub(1);
         remainingBalance = MyTestament[msg.sender][receiver].estate;
     }
     
@@ -87,7 +87,7 @@ contract Testament {
         return address(this).balance;
     }
     
-    function getTotalTestament() public view returns(uint256){
-        return countTestament;
+    function getTotalLogs() public view returns(uint256){
+        return countLogs;
     }
 }

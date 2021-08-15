@@ -3,40 +3,6 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "MyTestament",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "estate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "startDate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "completeDate",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "receiver",
 				"type": "address"
 			}
@@ -50,32 +16,6 @@
 			}
 		],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getContractBalance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getTotalTestament",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -100,6 +40,74 @@
 			}
 		],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "receiver",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "withdrow_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerWithdraws",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "remainingBalance",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "receiver",
+				"type": "address"
+			},
+			{
+				"internalType": "uint8",
+				"name": "completeDate",
+				"type": "uint8"
+			}
+		],
+		"name": "setMyLastWill",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getContractBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTotalLogs",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -145,42 +153,34 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "receiver",
+				"name": "",
 				"type": "address"
 			},
 			{
-				"internalType": "uint256",
-				"name": "withdrow_amount",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
-		"name": "ownerWithdraws",
+		"name": "MyTestament",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "remainingBalance",
+				"name": "estate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "completeDate",
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "receiver",
-				"type": "address"
-			},
-			{
-				"internalType": "uint8",
-				"name": "completeDate",
-				"type": "uint8"
-			}
-		],
-		"name": "setMyLastWill",
-		"outputs": [],
-		"stateMutability": "payable",
+		"stateMutability": "view",
 		"type": "function"
 	}
 ]
