@@ -1,6 +1,8 @@
 <template>
   <v-app>
     <v-app-bar app>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+
       <v-spacer></v-spacer>
       <v-btn @click="connectWallet()" v-if="this.account === ''">
         Connect wallet
@@ -10,7 +12,7 @@
       </v-btn>
     </v-app-bar>
 
-    <v-navigation-drawer app permanent>
+    <v-navigation-drawer class=".d-flex .d-sm-none" v-model="drawer" app>
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6"> พินัยกรรม </v-list-item-title>
@@ -20,7 +22,7 @@
 
       <v-divider></v-divider>
 
-      <v-list dense nav>
+      <v-list nav>
         <v-list-item
           v-for="item in items"
           :key="item.title"
@@ -56,8 +58,20 @@ export default {
       { title: "ถอนเงินมรดก", href: "/withdraw" },
       { title: "รับมรดก", href: "/inherit" },
     ],
-    right: null,
+    drawer: true,
   }),
+
+  watch: {
+    group() {
+      this.drawer = false;
+    },
+  },
+
+  computed: {
+    mini() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
+  },
 
   async created() {
     await this.connectWallet();

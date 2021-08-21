@@ -1,11 +1,9 @@
 <template>
   <v-container fluid>
-    <v-row style="height: 30vh">
-      <v-col class="textCenter" justify="center">
-        <h1>ยอดกองมรดกทั้งหมด<br />{{ tvl }} ETH</h1></v-col
-      >
+    <v-row class="align-content-center justify-center" style="height: 30vh">
+      <h1 class="textCenter">ยอดกองมรดกทั้งหมด<br />{{ tvl }} ETH</h1>
     </v-row>
-    <v-row class="center">
+    <v-row class="justify-center">
       <v-card>
         <v-card-title>
           ธุรกรรมที่เกิดขึ้นทั้งหมด
@@ -53,7 +51,7 @@ export default {
     loadData: true,
     search: "",
     headers: [
-      { text: "StartDate", value: "startDate" },
+      { text: "วันสร้างพินัยกรรม", value: "startDate" },
       {
         text: "บัญชีผู้สร้างพินัยกรรม",
         align: "start",
@@ -83,8 +81,5 @@ export default {
 .textCenter {
   text-align: center;
   align-self: center;
-}
-.center {
-  justify-content: center;
 }
 </style>
