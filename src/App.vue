@@ -1,14 +1,17 @@
 <template>
   <v-app>
     <v-app-bar app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-
+      <v-app-bar-nav-icon
+        hidden
+        @click.stop="drawer = !drawer"
+      ></v-app-bar-nav-icon>
+      Test on rinkeby network
       <v-spacer></v-spacer>
-      <v-btn @click="connectWallet()" v-if="this.account === ''">
+      <v-btn @click="connectWallet()" v-if="account === undefined">
         Connect wallet
       </v-btn>
-      <v-btn depressed v-else>
-        {{ shortAccount(this.account) }}
+      <v-btn @click="connectWallet()" depressed v-else>
+        {{ shortAccount() }}
       </v-btn>
     </v-app-bar>
 
@@ -67,12 +70,6 @@ export default {
     },
   },
 
-  computed: {
-    mini() {
-      return this.$vuetify.breakpoint.smAndDown;
-    },
-  },
-
   async created() {
     await this.connectWallet();
   },
@@ -80,9 +77,11 @@ export default {
   mounted() {},
 
   methods: {
-    shortAccount(id) {
+    shortAccount() {
       return (
-        id.substring(0, 4) + "..." + id.substring(id.length - 4, id.length)
+        this.account.substring(0, 4) +
+        "..." +
+        this.account.substring(this.account.length - 4, this.account.length)
       );
     },
     async connectWallet() {
