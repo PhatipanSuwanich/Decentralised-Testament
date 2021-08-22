@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
 import Create from "../views/Create.vue";
+import Cancel from "../views/CancelContract.vue";
+import inherit from "../views/LegateeWithdraws.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +17,16 @@ const routes = [
     path: "/create",
     name: "Create",
     component: Create,
+  },
+  {
+    path: "/cancelcontract",
+    name: "CancelContract",
+    component: Cancel,
+  },
+  {
+    path: "/inherit",
+    name: "inherit",
+    component: inherit,
   },
 ];
 

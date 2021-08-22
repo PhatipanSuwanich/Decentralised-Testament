@@ -55,10 +55,10 @@ export default {
     items: [
       { title: "ภาพรวม", href: "/" },
       { title: "สร้างพินัยกรรม", href: "/create" },
-      { title: "ถอนเงินมรดก", href: "/withdraw" },
+      { title: "ถอนเงินมรดก", href: "/CancelContract" },
       { title: "รับมรดก", href: "/inherit" },
     ],
-    drawer: true,
+    drawer: null,
   }),
 
   watch: {

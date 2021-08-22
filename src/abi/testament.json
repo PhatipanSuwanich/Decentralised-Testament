@@ -46,6 +46,25 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "legateeWithdrawsAll",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "remainingBalance",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "receiver",
 				"type": "address"
 			},
@@ -82,6 +101,25 @@
 		"name": "setMyLastWill",
 		"outputs": [],
 		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "countMyTestamentList",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -178,6 +216,55 @@
 				"internalType": "uint256",
 				"name": "completeDate",
 				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "saveLog",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "MyTestamentList",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "estate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "completeDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "legatee",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",

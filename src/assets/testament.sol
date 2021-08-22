@@ -11,6 +11,7 @@ contract Testament {
         uint256 estate;       //กองมรดก
         uint256 startDate;    //วันที่สร้างพินัยกรรม
         uint256 completeDate; //เวลาส่งต่อมรดก
+        bool saveLog;
     }
     
     struct transaction {
@@ -22,7 +23,8 @@ contract Testament {
     }
     
     mapping (address => mapping (address => Testament)) public MyTestament;
-    // mapping (uint256 => transaction[]) public logs;
+    mapping (address => transaction[]) public MyTestamentList;
+    mapping (address => uint256) public countMyTestamentList;
     transaction[] public logs;
     
     function setMyLastWill(address receiver,uint8 completeDate) public payable{
@@ -51,6 +53,15 @@ contract Testament {
         currentTransaction.completeDate = completeDate;
         currentTransaction.legatee = legatee;
         
+        // save logs
+        
+        // can't delete some data in array
+        // if (!MyTestament[msg.sender][legatee].saveLog) {
+        //     MyTestamentList[msg.sender].push(currentTransaction);
+        //     countMyTestamentList[msg.sender] = countMyTestamentList[msg.sender].add(1);
+        //     MyTestament[msg.sender][legatee].saveLog = true;
+        // } 
+
         logs.push(currentTransaction);
         countLogs = countLogs.add(1);
     }
@@ -71,6 +82,16 @@ contract Testament {
         
         remainingBalance = MyTestament[owner][msg.sender].estate;
     }
+
+    function legateeWithdrawsAll(address owner) public returns (uint256 remainingBalance){
+        require(MyTestament[owner][msg.sender].completeDate <= now,"Today, the date that can be inherited is not yet due.!");
+        require(MyTestament[owner][msg.sender].estate > 0,"Empty inheritance");
+        uint256 max_amount = MyTestament[owner][msg.sender].estate;
+        MyTestament[owner][msg.sender].estate = MyTestament[owner][msg.sender].estate.sub(max_amount);
+        
+        msg.sender.transfer(max_amount);
+        remainingBalance = MyTestament[owner][msg.sender].estate;
+    }
     
     function cancellationMyLastWillTestament(address receiver) public returns (uint256 remainingBalance){
         require(MyTestament[msg.sender][receiver].estate > 0,"You do not own this will.");
@@ -81,6 +102,18 @@ contract Testament {
         
         msg.sender.transfer(max_amount);
         remainingBalance = MyTestament[msg.sender][receiver].estate;
+    }
+    
+    function removeTestamentList(address legatee) private {
+        uint documentNo = 0;
+        while(MyTestamentList[msg.sender][documentNo].legatee == legatee){
+            documentNo = documentNo.add(1);
+        }
+        
+        // need fix How to delete an element at a certain index in an array?
+        // delete MyTestamentList[msg.sender][documentNo];
+        countMyTestamentList[msg.sender] = countMyTestamentList[msg.sender].sub(1);
+        MyTestament[msg.sender][legatee].saveLog = false;
     }
     
     function getContractBalance() public view returns(uint256){

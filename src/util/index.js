@@ -36,7 +36,7 @@ class SmartContract {
   async init() {
     const netId = await this.getNetID();
     if ("Rinkeby" == netId.name) {
-      this.contractAddr = "0xaF9feB20E57c140471c92f1b84814810EBAa3A0A";
+      this.contractAddr = "0x971E6AD25C76b79B0332bA43591BAfd2CB513455";
     }
     this.contract = new this.web3.eth.Contract(ContractAbi, this.contractAddr);
     console.log("Methods: ", this.contract.methods);
@@ -113,6 +113,106 @@ class SmartContract {
         .format("Do MMM YYYY, h:mm:ss");
     }
     return this.logs;
+  }
+
+  async setMyLastWill(owner, estate, completeDate, receiver) {
+    estate = this.web3.utils.toWei("" + estate, "ether");
+    console.log("owner", owner);
+    console.log("estate", estate);
+    console.log("completeDate", completeDate);
+    console.log("receiver", receiver);
+    // return "";
+    // Send a transaction to blockchain
+    return await this.contract.methods
+      .setMyLastWill(receiver, completeDate)
+      .send({ from: owner, value: estate })
+      .on("error", (error) => {
+        console.error(error);
+        return {
+          result: "error",
+          message: error,
+        };
+      })
+
+      // Transaction already saved to mempool
+      .on("transactionHash", (transactionHash) => {
+        // Show tx hash
+        console.log(transactionHash);
+      })
+
+      // Transaction got confirmed
+      .on("confirmation", (confirmationNumber, receipt) => {
+        console.log("confirmationNumber", confirmationNumber);
+        console.log(receipt);
+        return {
+          result: "confirmation",
+          message: "OK",
+          confirmationNumber: confirmationNumber,
+          receipt: receipt,
+        };
+      });
+  }
+
+  async cancellationMyLastWillTestament(owner, receiver) {
+    return await this.contract.methods
+      .cancellationMyLastWillTestament(receiver)
+      .send({ from: owner })
+      .on("error", (error) => {
+        console.error(error);
+        return {
+          result: "error",
+          message: error,
+        };
+      })
+
+      // Transaction already saved to mempool
+      .on("transactionHash", (transactionHash) => {
+        // Show tx hash
+        console.log(transactionHash);
+      })
+
+      // Transaction got confirmed
+      .on("confirmation", (confirmationNumber, receipt) => {
+        console.log("confirmationNumber", confirmationNumber);
+        console.log(receipt);
+        return {
+          result: "confirmation",
+          message: "OK",
+          confirmationNumber: confirmationNumber,
+          receipt: receipt,
+        };
+      });
+  }
+
+  async legateeWithdrawsAll(owner, receiver) {
+    return await this.contract.methods
+      .legateeWithdrawsAll(receiver)
+      .send({ from: owner })
+      .on("error", (error) => {
+        console.error(error);
+        return {
+          result: "error",
+          message: error,
+        };
+      })
+
+      // Transaction already saved to mempool
+      .on("transactionHash", (transactionHash) => {
+        // Show tx hash
+        console.log(transactionHash);
+      })
+
+      // Transaction got confirmed
+      .on("confirmation", (confirmationNumber, receipt) => {
+        console.log("confirmationNumber", confirmationNumber);
+        console.log(receipt);
+        return {
+          result: "confirmation",
+          message: "OK",
+          confirmationNumber: confirmationNumber,
+          receipt: receipt,
+        };
+      });
   }
 }
 

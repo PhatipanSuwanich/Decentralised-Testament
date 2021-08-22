@@ -1,12 +1,12 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <v-row class="align-content-center justify-center" style="height: 30vh">
       <h1 class="textCenter">ยอดกองมรดกทั้งหมด<br />{{ tvl }} ETH</h1>
     </v-row>
     <v-row class="justify-center">
       <v-card>
         <v-card-title>
-          ธุรกรรมที่เกิดขึ้นทั้งหมด
+          ธุรกรรมที่สร้างพินัยกรรมทั้งหมด
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
